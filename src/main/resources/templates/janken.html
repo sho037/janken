@@ -8,11 +8,11 @@
 </head>
 
 <body>
-  <h1>Janken Game</h1>
-  <form action="/janken" method="post">
-    <input type="text" name="name" placeholder="名前を入力してください">
-    <input type="submit" value="参加">
-  </form>
+  <div th:if="${name}">
+    <h1>Hi! [[${name}]]</h1>
+  </div>
+
 </body>
 
 </html>
+
