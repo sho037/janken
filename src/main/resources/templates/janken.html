@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Janken Game</title>
+</head>
+
+<body>
+  <div th:if="${name}">
+    <h1>Hi! [[${name}]]</h1>
+  </div>
+
+  <form action="/janken/start" method="post">
+    <input type="submit" name="player_hand" value="グー">
+    <input type="submit" name="player_hand" value="チョキ">
+    <input type="submit" name="player_hand" value="パー">
+  </form>
+
+  <div class="result">
+    <h2>あなたの手</h2>
+    <div th:if="${player_hand}">
+      <p>[[${player_hand}]]</p>
+    </div>
+    <h2>CPUの手</h2>
+    <div th:if="${cpu_hand}">
+      <p>[[${cpu_hand}]]</p>
+    </div>
+    <h2>結果</h2>
+    <div th:if="${result}">
+      <p>[[${result}]]</p>
+    </div>
+  </div>
+
+</body>
+
+</html>
