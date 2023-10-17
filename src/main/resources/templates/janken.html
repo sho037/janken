@@ -11,8 +11,8 @@
   <h1>Janken Game</h1>
   <a href="/logout">ログアウト</a>
 
-  <div th:if="${name}">
-    <h1>Hi! [[${name}]]</h1>
+  <div th:if="${login_user_name}">
+    <h1>Hi! [[${login_user_name}]]</h1>
   </div>
 
   <form action="/janken/start" method="post">

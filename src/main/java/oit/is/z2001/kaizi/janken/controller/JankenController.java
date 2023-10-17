@@ -17,7 +17,9 @@ public class JankenController {
   private Entry entry;
 
   @GetMapping("/janken")
-  public String janken() {
+  public String janken(Principal prin, ModelMap model) {
+    String loginUserName = prin.getName();
+    model.addAttribute("login_user_name", loginUserName);
     return "janken.html";
   }
 
