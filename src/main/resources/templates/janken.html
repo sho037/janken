@@ -8,6 +8,9 @@
 </head>
 
 <body>
+  <h1>Janken Game</h1>
+  <a href="/logout">ログアウト</a>
+
   <div th:if="${name}">
     <h1>Hi! [[${name}]]</h1>
   </div>
@@ -30,6 +33,19 @@
     <h2>結果</h2>
     <div th:if="${result}">
       <p>[[${result}]]</p>
+    </div>
+  </div>
+
+  <div class="entry">
+    <h3>
+      <a href="/janken/entry">エントリー</a>
+    </h3>
+
+    <div th:if="${entry}">
+      <h3>DI利用</h3>
+      <ul>
+        <li th:each="user : ${entry.users}">[[${user}]]</li>
+      </ul>
     </div>
   </div>
 
