@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-public class Janken {
+public class JankenController {
   @GetMapping("/janken")
   public String janken() {
     return "janken.html";
