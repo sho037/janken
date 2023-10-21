@@ -51,7 +51,7 @@ public class JankenAuthConfiguration {
     // $ sshrun htpasswd -nbBC 10 user1 p@ss
 
     UserDetails user1 = User.withUsername("user1")
-        .password("{bcrypt}$2y$10$7waDF9G/Nny4mSvc.lgCxeI.y.TswOZtW1qcWeCV8ehNieVow8s9S").roles("USER").build();
+        .password("{bcrypt}$2y$10$5c.XglcvcTSQiHY7/bmv1uj571dfmHC6stcMS7Y1Mojlaw.2mc7LG").roles("USER").build();
     UserDetails user2 = User.withUsername("user2")
         .password("{bcrypt}$2y$10$K/S5rZSCX6LMib606LR7J.Z7mjXHkiifA2DOtovm3KIEJkfDNzPJi").roles("USER").build();
     UserDetails admin = User.withUsername("admin")
