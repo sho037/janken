@@ -8,33 +8,8 @@
 </head>
 
 <body>
-  <h1>Janken Game</h1>
   <a href="/logout">ログアウト</a>
-
-  <div th:if="${login_user_name}">
-    <h1>Hi! [[${login_user_name}]]</h1>
-  </div>
-
-  <form action="/janken/start" method="post">
-    <input type="submit" name="player_hand" value="グー">
-    <input type="submit" name="player_hand" value="チョキ">
-    <input type="submit" name="player_hand" value="パー">
-  </form>
-
-  <div class="result">
-    <h2>あなたの手</h2>
-    <div th:if="${player_hand}">
-      <p>[[${player_hand}]]</p>
-    </div>
-    <h2>CPUの手</h2>
-    <div th:if="${cpu_hand}">
-      <p>[[${cpu_hand}]]</p>
-    </div>
-    <h2>結果</h2>
-    <div th:if="${result}">
-      <p>[[${result}]]</p>
-    </div>
-  </div>
+  <h1>Janken Game</h1>
 
   <div class="entry">
     <h3>
@@ -42,13 +17,41 @@
     </h3>
 
     <div th:if="${entry}">
-      <h3>DI利用</h3>
+      <!-- <h3>DI利用</h3> -->
       <ul>
         <li th:each="user : ${entry.users}">[[${user}]]</li>
       </ul>
     </div>
   </div>
 
+  <div class="user">
+    <div th:if="${login_user_name}">
+      <h1>Hi! [[${login_user_name}]]</h1>
+    </div>
+  </div>
+
+  <div class="game">
+    <form action="/janken/start" method="post">
+      <input type="submit" name="player_hand" value="グー">
+      <input type="submit" name="player_hand" value="チョキ">
+      <input type="submit" name="player_hand" value="パー">
+    </form>
+
+    <div class="result">
+      <h3>あなたの手</h3>
+      <div th:if="${player_hand}">
+        <p>[[${player_hand}]]</p>
+      </div>
+      <h3>CPUの手</h3>
+      <div th:if="${cpu_hand}">
+        <p>[[${cpu_hand}]]</p>
+      </div>
+      <h3>結果</h3>
+      <div th:if="${result}">
+        <p>[[${result}]]</p>
+      </div>
+    </div>
+  </div>
 </body>
 
 </html>
