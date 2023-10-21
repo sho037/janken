@@ -33,8 +33,7 @@ public class JankenController {
   public String jankenStart(@RequestParam String player_hand, ModelMap model) {
     String[] hand_list = { "グー", "チョキ", "パー" };
     String[] result_list = { "あいこ", "勝ち", "負け" };
-    // String cpu_hand = hand[(int) (Math.random() * 3)];
-    String cpu_hand = hand_list[0];
+    String cpu_hand = hand[(int) (Math.random() * 3)];
 
     String result = result_list[0];
 
