@@ -34,10 +34,7 @@ public class JankenController {
     String[] hand_list = { "グー", "チョキ", "パー" };
     String[] result_list = { "あいこ", "勝ち", "負け" };
     String cpu_hand = hand_list[(int) (Math.random() * 3)];
-
-    System.out.println("hi there");
-
-    String result = result_list[0];
+    String result;
 
     if (player_hand.equals("グー")) {
       if (cpu_hand.equals("グー")) {
