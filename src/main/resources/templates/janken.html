@@ -24,6 +24,13 @@
     </div>
   </div>
 
+  <div class="all-users" th:if="${all_users}">
+    <h3>全ユーザー</h3>
+    <ul>
+      <li th:each="user : ${all_users}">[[${user}]]</li>
+    </ul>
+  </div>
+
   <div class="user">
     <div th:if="${login_user_name}">
       <h1>Hi! [[${login_user_name}]]</h1>
