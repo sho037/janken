@@ -27,9 +27,8 @@ public class JankenAuthConfiguration {
             .logoutUrl("/logout")
             .logoutSuccessUrl("/"))
         .authorizeHttpRequests(authz -> authz
-            // /janken/以下は認証済みであること
-            .requestMatchers("/janken/**").authenticated()
-            .requestMatchers("/**").permitAll()) // それ以外は全員アクセス可能
+            .requestMatchers(AntPathRequestMatcher.antMatcher("/janken/**")).authenticated()
+            .requestMatchers(AntPathRequestMatcher.antMatcher("/**")).permitAll())
         .csrf(csrf -> csrf
             .ignoringRequestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/*")))
         .headers(headers -> headers
