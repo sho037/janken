@@ -11,6 +11,12 @@
   <a href="/logout">ログアウト</a>
   <h1>Janken Game</h1>
 
+  <div class="user">
+    <div th:if="${login_user_name}">
+      <h1>Hi! [[${login_user_name}]]</h1>
+    </div>
+  </div>
+
   <div class="entry">
     <h3>
       <a href="/janken/entry">エントリー</a>
@@ -31,10 +37,24 @@
     </ul>
   </div>
 
-  <div class="user">
-    <div th:if="${login_user_name}">
-      <h1>Hi! [[${login_user_name}]]</h1>
-    </div>
+  <div class="all-matches" th:if="${all_matches}">
+    <h3>全試合</h3>
+    <table>
+      <tr>
+        <th>id</th>
+        <th>user1</th>
+        <th>user2</th>
+        <th>user1の手</th>
+        <th>user2の手</th>
+      </tr>
+      <tr th:each="element, elementStat : ${all_matches}">
+        <td th:text="${elementStat.index}"></td>
+        <td th:text="${element.user1}"></td>
+        <td th:text="${element.user2}"></td>
+        <td th:text="${element.user1Hand}"></td>
+        <td th:text="${element.user2Hand}"></td>
+      </tr>
+    </table>
   </div>
 
   <div class="game">
