@@ -1,8 +1,6 @@
 package oit.is.z2001.kaizi.janken.controller;
 
-import java.lang.reflect.Array;
 import java.security.Principal;
-import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
