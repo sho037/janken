@@ -56,29 +56,6 @@
       </tr>
     </table>
   </div>
-
-  <div class="game">
-    <form action="/janken/start" method="post">
-      <input type="submit" name="player_hand" value="グー">
-      <input type="submit" name="player_hand" value="チョキ">
-      <input type="submit" name="player_hand" value="パー">
-    </form>
-
-    <div class="result">
-      <h3>あなたの手</h3>
-      <div th:if="${player_hand}">
-        <p>[[${player_hand}]]</p>
-      </div>
-      <h3>CPUの手</h3>
-      <div th:if="${cpu_hand}">
-        <p>[[${cpu_hand}]]</p>
-      </div>
-      <h3>結果</h3>
-      <div th:if="${result}">
-        <p>[[${result}]]</p>
-      </div>
-    </div>
-  </div>
 </body>
 
 </html>

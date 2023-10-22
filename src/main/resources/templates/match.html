@@ -15,6 +15,26 @@
       <p sec:authentication="name"></p> vs <p>[[${enemy_user.name}]]</p>
     </h3>
 
+    <div class="game" th:if="${(user_id != null) && (enemy_user != null)}">
+      <a th:href="@{/fight(id=${user_id}, enemy_id=${enemy_user.id}, user_hand='Gu')}">
+        ぐー
+      </a>
+      <a th:href="@{/fight(id=${user_id}, enemy_id=${enemy_user.id}, user_hand='Choki')}">
+        ちょき
+      </a>
+      <a th:href="@{/fight(id=${user_id}, enemy_id=${enemy_user.id}, user_hand='Pa')}">
+        ぱー
+      </a>
+    </div>
+
+    <div class="result" th:if="${(your_hand != null) && (enemy_hand != null) && (result != null)}">
+      <p>あなたの手：[[${your_hand}]]</p>
+      <p>相手の手：[[${enemy_hand}]]</p>
+      <p>結果：[[${result}]]</p>
+    </div>
+
+    <a href="/janken">もどる</a>
+
   </div>
 </body>
 

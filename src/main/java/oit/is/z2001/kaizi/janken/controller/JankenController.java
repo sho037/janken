@@ -44,46 +44,6 @@ public class JankenController {
     return "janken.html";
   }
 
-  @PostMapping("/janken/start")
-  public String jankenStart(@RequestParam String player_hand, ModelMap model) {
-    String[] hand_list = { "グー", "チョキ", "パー" };
-    String[] result_list = { "あいこ", "勝ち", "負け" };
-    String cpu_hand = hand_list[(int) (Math.random() * 3)];
-    String result = "";
-
-    if (player_hand.equals("グー")) {
-      if (cpu_hand.equals("グー")) {
-        result = result_list[0];
-      } else if (cpu_hand.equals("チョキ")) {
-        result = result_list[1];
-      } else if (cpu_hand.equals("パー")) {
-        result = result_list[2];
-      }
-    } else if (player_hand.equals("チョキ")) {
-      if (cpu_hand.equals("グー")) {
-        result = result_list[2];
-      } else if (cpu_hand.equals("チョキ")) {
-        result = result_list[0];
-      } else if (cpu_hand.equals("パー")) {
-        result = result_list[1];
-      }
-    } else if (player_hand.equals("パー")) {
-      if (cpu_hand.equals("グー")) {
-        result = result_list[1];
-      } else if (cpu_hand.equals("チョキ")) {
-        result = result_list[2];
-      } else if (cpu_hand.equals("パー")) {
-        result = result_list[0];
-      }
-    }
-
-    model.addAttribute("player_hand", player_hand);
-    model.addAttribute("cpu_hand", cpu_hand);
-    model.addAttribute("result", result);
-
-    return "janken.html";
-  }
-
   @GetMapping("/janken/entry")
   public String entry(Principal prin, ModelMap model) {
     String loginUser = prin.getName();
@@ -94,9 +54,46 @@ public class JankenController {
   }
 
   @GetMapping("/match")
-  public String match(@RequestParam Integer id, ModelMap model) {
+  public String match(Principal prin, @RequestParam Integer id, ModelMap model) {
+    String loginUser = prin.getName();
     User enemy_user = userMapper.selectUserById(id);
+    model.addAttribute("user_id", id);
+    model.addAttribute("login_user_name", loginUser);
     model.addAttribute("enemy_user", enemy_user);
+    return "match.html";
+  }
+
+  @GetMapping("/fight")
+  public String fight(@RequestParam Integer id, @RequestParam Integer enemy_id,
+      @RequestParam String user_hand,
+      ModelMap model) {
+    String hand_list[] = { "Gu", "Choki", "Pa" };
+    String enemy_hand = hand_list[(int) (Math.random() * 3)];
+    String result = "";
+    User enemy_user = userMapper.selectUserById(enemy_id);
+    Match match = new Match();
+    match.setUser1(id.toString());
+    match.setUser2(enemy_id.toString());
+    match.setUser1Hand(user_hand);
+    match.setUser2Hand(enemy_hand);
+    matchMapper.insertMatch(match);
+
+    if (user_hand.equals(enemy_hand)) {
+      result = "Draw";
+    } else if (user_hand.equals("Gu") && enemy_hand.equals("Choki")
+        || user_hand.equals("Choki") && enemy_hand.equals("Pa")
+        || user_hand.equals("Pa") && enemy_hand.equals("Gu")) {
+      result = "Win";
+    } else {
+      result = "Lose";
+    }
+
+    model.addAttribute("user_id", id);
+    model.addAttribute("enemy_user", enemy_user);
+    model.addAttribute("your_hand", user_hand);
+    model.addAttribute("enemy_hand", enemy_hand);
+    model.addAttribute("result", result);
+
     return "match.html";
   }
 }
