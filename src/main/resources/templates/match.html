@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Janken Game</title>
+</head>
+
+<body>
+  <h1>Janken Game</h1>
+
+  <div class="users" th:if="${enemy_user}">
+    <h3>
+      <p sec:authentication="name"></p> vs <p>[[${enemy_user.name}]]</p>
+    </h3>
+
+  </div>
+</body>
+
+</html>
