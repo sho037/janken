@@ -10,28 +10,30 @@
 </head>
 
 <body>
-  <nav class="navbar" style="background-color: #f8cd88;">
-    <div class="container-fluid">
-      <span class="navbar-brand h1">
-        Janken Game App
-      </span>
+  <header>
+    <nav class="navbar" style="background-color: #f8cd88;">
+      <div class="container-fluid">
+        <span class="navbar-brand h1 container">
+          Janken Game App
+        </span>
 
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
-        aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav">
-          <p class="nav-item text-end pt-5">こんにちは！
-            <span sec:authentication="name"></span>さん。
-          </p>
-          <a class="nav-link active text-end" href="/janken">ホーム</a>
-          <a class="nav-link active text-end" aria-current="page" href="/janken/entry">エントリー</a>
-          <a class="nav-link text-end" href="/logout">ログアウト</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+          aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav">
+            <p class="nav-item text-end pt-5">こんにちは！
+              <span sec:authentication="name"></span>さん。
+            </p>
+            <a class="nav-link active text-end" href="/janken">ホーム</a>
+            <a class="nav-link active text-end" aria-current="page" href="/janken/entry">エントリー</a>
+            <a class="nav-link text-end" href="/logout">ログアウト</a>
+          </div>
         </div>
       </div>
-    </div>
-  </nav>
+    </nav>
+  </header>
 
   <div class="container">
     <div class="users mt-5" th:if="${enemy_user}">
