@@ -31,10 +31,10 @@ public class JankenController {
   public String janken(Principal prin, ModelMap model) {
     String loginUserName = prin.getName();
     ArrayList<User> users = userMapper.selectAllUsers();
-    model.addAttribute("users", users);
     ArrayList<Match> matches = matchMapper.selectAllMatche();
-    model.addAttribute("all_matches", matches);
     model.addAttribute("login_user_name", loginUserName);
+    model.addAttribute("all_users", users);
+    model.addAttribute("all_matches", matches);
     return "janken.html";
   }
 

@@ -57,10 +57,10 @@
       </div>
     </div>
 
-    <div class="users" th:if="${users}">
+    <div class="all-users" th:if="${all_users}">
       <h3>全ユーザー</h3>
       <ul>
-        <li th:each="user : ${users}"><a th:href="@{/match(id=${user.id})}"
+        <li th:each="user : ${all_users}"><a th:href="@{/match(id=${user.id})}"
             class="text-decoration-none">[[${user.name}]]</a></li>
       </ul>
     </div>
