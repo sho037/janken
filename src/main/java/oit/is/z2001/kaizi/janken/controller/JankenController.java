@@ -38,12 +38,6 @@ public class JankenController {
     return "janken.html";
   }
 
-  @PostMapping("/janken")
-  public String janken(@RequestParam String name, ModelMap model) {
-    model.addAttribute("name", name);
-    return "janken.html";
-  }
-
   @GetMapping("/janken/entry")
   public String entry(Principal prin, ModelMap model) {
     String loginUser = prin.getName();
