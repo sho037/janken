@@ -40,17 +40,17 @@
       <h3><span sec:authentication="name"></span> vs <span>[[${enemy_user.name}]]</span></h3>
     </div>
 
-    <div class="game mt-5 text-center" th:if="${(user_id != null) && (enemy_user != null)}">
+    <div class="game mt-5 text-center" th:if="${(login_user != null) && (enemy_user != null)}">
       <a class="btn btn-outline-danger mx-3"
-        th:href="@{/fight(id=${user_id}, enemy_id=${enemy_user.id}, user_hand='Gu')}">
+        th:href="@{/wait(login_user_id=${login_user.id}, enemy_user_id=${enemy_user.id}, login_user_hand='Gu')}">
         ぐー
       </a>
       <a class="btn btn-outline-warning mx-3"
-        th:href="@{/fight(id=${user_id}, enemy_id=${enemy_user.id}, user_hand='Choki')}">
+        th:href="@{/wait(login_user_id=${login_user.id}, enemy_user_id=${enemy_user.id}, login_user_hand='Choki')}">
         ちょき
       </a>
       <a class="btn btn-outline-primary mx-3"
-        th:href="@{/fight(id=${user_id}, enemy_id=${enemy_user.id}, user_hand='Pa')}">
+        th:href="@{/wait(login_user_id=${login_user.id}, enemy_user_id=${enemy_user.id}, login_user_hand='Pa')}">
         ぱー
       </a>
     </div>
