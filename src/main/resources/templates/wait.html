@@ -76,6 +76,11 @@
         </thead>
         <tbody id="result-body">
         </tbody>
+      </table>
+
+      <div class="text-center">
+        <a class="btn btn-primary" href="/janken">ホームに戻る</a>
+      </div>
     </div>
   </div>
 
@@ -85,19 +90,15 @@
 
       sse.onmessage = function (event) {
         console.log(event.data);
-        var result_list = JSON.parse(event.data);
+        var result_data = JSON.parse(event.data);
         var result_table = "";
-        for (var i = 0; i < result_list.length; i++) {
-          var bgn_tr = "<tr>";
-          var end_tr = "</tr>";
-          var idx = "<td>" + i + "</td>";
-          var match_id = "<td>" + result_list[i].matchId + "</td>";
-          var user1 = "<td>" + result_list[i].user1 + "</td>";
-          var user2 = "<td>" + result_list[i].user2 + "</td>";
-          var user1Hand = "<td>" + result_list[i].user1Hand + "</td>";
-          var user2Hand = "<td>" + result_list[i].user2Hand + "</td>";
-          result_table = result_table + bgn_tr + idx + match_id + user1 + user2 + user1Hand + user2Hand + end_tr;
-        }
+        result_table += "<tr>";
+        result_table += "<td>" + result_data.id + "</td>";
+        result_table += "<td>" + result_data.user1 + "</td>";
+        result_table += "<td>" + result_data.user2 + "</td>";
+        result_table += "<td>" + result_data.user1Hand + "</td>";
+        result_table += "<td>" + result_data.user2Hand + "</td>";
+        result_table += "</tr>";
         console.log(result_table);
         var tbody = document.getElementById("result-body");
         tbody.innerHTML = result_table;

@@ -14,6 +14,6 @@ public interface MatchMapper {
   @Insert("INSERT INTO matches (user1, user2, user1Hand, user2Hand) VALUES (#{user1},#{user2},#{user1Hand},#{user2Hand});")
   int insertMatch(Match match);
 
-  @Select("SELECT id, user1, user2, user1Hand, user2Hand from matches where id = #{id};")
+  @Select("SELECT * from matches where id = #{id};")
   Match selectById(int id);
 }
