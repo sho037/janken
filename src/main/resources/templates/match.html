@@ -10,45 +10,47 @@
 </head>
 
 <body>
-  <nav class="navbar" style="background-color: #f8cd88;">
-    <div class="container-fluid">
-      <span class="navbar-brand h1">
-        Janken Game App
-      </span>
+  <header>
+    <nav class="navbar" style="background-color: #f8cd88;">
+      <div class="container-fluid">
+        <span class="navbar-brand h1 container">
+          Janken Game App
+        </span>
 
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
-        aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav">
-          <p class="nav-item text-end pt-5">こんにちは！
-            <span sec:authentication="name"></span>さん。
-          </p>
-          <a class="nav-link active text-end" href="/janken">ホーム</a>
-          <a class="nav-link active text-end" aria-current="page" href="/janken/entry">エントリー</a>
-          <a class="nav-link text-end" href="/logout">ログアウト</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+          aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav">
+            <p class="nav-item text-end pt-5">こんにちは！
+              <span sec:authentication="name"></span>さん。
+            </p>
+            <a class="nav-link active text-end" href="/janken">ホーム</a>
+            <a class="nav-link active text-end" aria-current="page" href="/janken/entry">エントリー</a>
+            <a class="nav-link text-end" href="/logout">ログアウト</a>
+          </div>
         </div>
       </div>
-    </div>
-  </nav>
+    </nav>
+  </header>
 
   <div class="container">
     <div class="users mt-5" th:if="${enemy_user}">
       <h3><span sec:authentication="name"></span> vs <span>[[${enemy_user.name}]]</span></h3>
     </div>
 
-    <div class="game mt-5 text-center" th:if="${(user_id != null) && (enemy_user != null)}">
+    <div class="game mt-5 text-center" th:if="${(login_user != null) && (enemy_user != null)}">
       <a class="btn btn-outline-danger mx-3"
-        th:href="@{/fight(id=${user_id}, enemy_id=${enemy_user.id}, user_hand='Gu')}">
+        th:href="@{/wait(login_user_id=${login_user.id}, enemy_user_id=${enemy_user.id}, login_user_hand='Gu')}">
         ぐー
       </a>
       <a class="btn btn-outline-warning mx-3"
-        th:href="@{/fight(id=${user_id}, enemy_id=${enemy_user.id}, user_hand='Choki')}">
+        th:href="@{/wait(login_user_id=${login_user.id}, enemy_user_id=${enemy_user.id}, login_user_hand='Choki')}">
         ちょき
       </a>
       <a class="btn btn-outline-primary mx-3"
-        th:href="@{/fight(id=${user_id}, enemy_id=${enemy_user.id}, user_hand='Pa')}">
+        th:href="@{/wait(login_user_id=${login_user.id}, enemy_user_id=${enemy_user.id}, login_user_hand='Pa')}">
         ぱー
       </a>
     </div>

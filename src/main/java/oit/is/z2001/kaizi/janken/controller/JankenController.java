@@ -4,17 +4,27 @@ import java.security.Principal;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import oit.is.z2001.kaizi.janken.model.Entry;
 import oit.is.z2001.kaizi.janken.model.User;
 import oit.is.z2001.kaizi.janken.model.UserMapper;
 import oit.is.z2001.kaizi.janken.model.Match;
 import oit.is.z2001.kaizi.janken.model.MatchMapper;
+import oit.is.z2001.kaizi.janken.model.MatchInfo;
+import oit.is.z2001.kaizi.janken.model.MatchInfoMapper;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import oit.is.z2001.kaizi.janken.service.AsyncKekka;
 
 @Controller
 public class JankenController {
@@ -27,20 +37,24 @@ public class JankenController {
   @Autowired
   private MatchMapper matchMapper;
 
+  @Autowired
+  private MatchInfoMapper matchInfoMapper;
+
+  @Autowired
+  private AsyncKekka asyncKekka;
+
   @GetMapping("/janken")
   public String janken(Principal prin, ModelMap model) {
     String loginUserName = prin.getName();
     ArrayList<User> users = userMapper.selectAllUsers();
-    model.addAttribute("users", users);
     ArrayList<Match> matches = matchMapper.selectAllMatche();
-    model.addAttribute("all_matches", matches);
-    model.addAttribute("login_user_name", loginUserName);
-    return "janken.html";
-  }
+    MatchInfo activeMatchInfo = matchInfoMapper.selectActiveMatchInfo();
 
-  @PostMapping("/janken")
-  public String janken(@RequestParam String name, ModelMap model) {
-    model.addAttribute("name", name);
+    model.addAttribute("login_user_name", loginUserName);
+    model.addAttribute("all_users", users);
+    model.addAttribute("all_matches", matches);
+    model.addAttribute("active_matches", activeMatchInfo);
+
     return "janken.html";
   }
 
@@ -54,46 +68,51 @@ public class JankenController {
   }
 
   @GetMapping("/match")
-  public String match(Principal prin, @RequestParam Integer id, ModelMap model) {
-    String loginUser = prin.getName();
-    User enemy_user = userMapper.selectUserById(id);
-    model.addAttribute("user_id", id);
-    model.addAttribute("login_user_name", loginUser);
+  public String match(@AuthenticationPrincipal UserDetails user, @RequestParam Integer enemy_user_id, ModelMap model) {
+    User login_user = userMapper.selectUserById((userMapper.selectUserIdByName(user.getUsername())));
+    User enemy_user = userMapper.selectUserById(enemy_user_id);
+    model.addAttribute("login_user", login_user);
     model.addAttribute("enemy_user", enemy_user);
     return "match.html";
   }
 
-  @GetMapping("/fight")
-  public String fight(@RequestParam Integer id, @RequestParam Integer enemy_id,
-      @RequestParam String user_hand,
-      ModelMap model) {
-    String hand_list[] = { "Gu", "Choki", "Pa" };
-    String enemy_hand = hand_list[(int) (Math.random() * 3)];
-    String result = "";
-    User enemy_user = userMapper.selectUserById(enemy_id);
-    Match match = new Match();
-    match.setUser1(id.toString());
-    match.setUser2(enemy_id.toString());
-    match.setUser1Hand(user_hand);
-    match.setUser2Hand(enemy_hand);
-    matchMapper.insertMatch(match);
+  @GetMapping("/wait")
+  public String wait(@RequestParam Integer login_user_id, @RequestParam Integer enemy_user_id,
+      @RequestParam String login_user_hand, ModelMap model) {
+    User login_user = userMapper.selectUserById(login_user_id);
+    User enemy_user = userMapper.selectUserById(enemy_user_id);
+    MatchInfo activeMatchInfo = matchInfoMapper.selectActiveMatchInfoByUser2(login_user_id.toString());
 
-    if (user_hand.equals(enemy_hand)) {
-      result = "Draw";
-    } else if (user_hand.equals("Gu") && enemy_hand.equals("Choki")
-        || user_hand.equals("Choki") && enemy_hand.equals("Pa")
-        || user_hand.equals("Pa") && enemy_hand.equals("Gu")) {
-      result = "Win";
+    if (activeMatchInfo == null) {
+      // マッチ待機情報をDBに登録
+      MatchInfo matchInfo = new MatchInfo();
+      matchInfo.setUser1(login_user_id.toString());
+      matchInfo.setUser2(enemy_user_id.toString());
+      matchInfo.setUser1Hand(login_user_hand);
+      matchInfo.setIsActive("TRUE");
+      matchInfoMapper.insertMatchInfo(matchInfo);
     } else {
-      result = "Lose";
+      Match match = new Match();
+      match.setUser1(enemy_user_id.toString());
+      match.setUser2(login_user_id.toString());
+      match.setUser1Hand(activeMatchInfo.getUser1Hand());
+      match.setUser2Hand(login_user_hand);
+      this.asyncKekka.syncResult(match);
+      activeMatchInfo.setIsActive("FALSE");
+      matchInfoMapper.updateMatchInfo(activeMatchInfo);
+      model.addAttribute("result", match);
     }
 
-    model.addAttribute("user_id", id);
+    model.addAttribute("login_user", login_user);
     model.addAttribute("enemy_user", enemy_user);
-    model.addAttribute("your_hand", user_hand);
-    model.addAttribute("enemy_hand", enemy_hand);
-    model.addAttribute("result", result);
+    model.addAttribute("login_user_hand", login_user_hand);
+    return "wait.html";
+  }
 
-    return "match.html";
+  @GetMapping("/janken/result")
+  public SseEmitter result() {
+    final SseEmitter sseEmitter = new SseEmitter();
+    this.asyncKekka.result(sseEmitter);
+    return sseEmitter;
   }
 }

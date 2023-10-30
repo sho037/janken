@@ -10,28 +10,30 @@
 </head>
 
 <body>
-  <nav class="navbar" style="background-color: #f8cd88;">
-    <div class="container-fluid">
-      <span class="navbar-brand h1">
-        Janken Game App
-      </span>
+  <header>
+    <nav class="navbar" style="background-color: #f8cd88;">
+      <div class="container-fluid">
+        <span class="navbar-brand h1 container">
+          Janken Game App
+        </span>
 
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
-        aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav">
-          <p class="nav-item text-end pt-5">こんにちは！
-            <span sec:authentication="name"></span>さん。
-          </p>
-          <a class="nav-link active text-end" href="/janken">ホーム</a>
-          <a class="nav-link active text-end" aria-current="page" href="/janken/entry">エントリー</a>
-          <a class="nav-link text-end" href="/logout">ログアウト</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+          aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav">
+            <p class="nav-item text-end pt-5">こんにちは！
+              <span sec:authentication="name"></span>さん。
+            </p>
+            <a class="nav-link active text-end" href="/janken">ホーム</a>
+            <a class="nav-link active text-end" aria-current="page" href="/janken/entry">エントリー</a>
+            <a class="nav-link text-end" href="/logout">ログアウト</a>
+          </div>
         </div>
       </div>
-    </div>
-  </nav>
+    </nav>
+  </header>
 
   <div class="container">
     <div class="user mt-5">
@@ -55,16 +57,34 @@
       </div>
     </div>
 
-    <div class="users" th:if="${users}">
+    <div class="all-users" th:if="${all_users}">
       <h3>全ユーザー</h3>
       <ul>
-        <li th:each="user : ${users}"><a th:href="@{/match(id=${user.id})}"
+        <li th:each="user : ${all_users}"><a th:href="@{/match(enemy_user_id=${user.id})}"
             class="text-decoration-none">[[${user.name}]]</a></li>
       </ul>
     </div>
 
+    <div class="active-match" th:if="${active_matches}">
+      <h3>アクティブな試合</h3>
+      <table class="table table-striped">
+        <tr>
+          <th>id</th>
+          <th>user1</th>
+          <th>user2</th>
+          <th>isActive</th>
+        </tr>
+        <tr th:each="element, elementStat : ${active_matches}">
+          <td th:text="${elementStat.index}"></td>
+          <td th:text="${element.user1}"></td>
+          <td th:text="${element.user2}"></td>
+          <td th:text="${element.isActive}"></td>
+        </tr>
+      </table>
+    </div>
+
     <div class="all-matches" th:if="${all_matches}">
-      <h3>全試合</h3>
+      <h3>試合結果</h3>
       <table class="table table-striped">
         <tr>
           <th>id</th>
