@@ -12,5 +12,8 @@ public interface MatchMapper {
   ArrayList<Match> selectAllMatche();
 
   @Insert("INSERT INTO matches (user1, user2, user1Hand, user2Hand) VALUES (#{user1},#{user2},#{user1Hand},#{user2Hand});")
-  void insertMatch(Match match);
+  int insertMatch(Match match);
+
+  @Select("SELECT id, user1, user2, user1Hand, user2Hand from matches where id = #{id};")
+  Match selectById(int id);
 }

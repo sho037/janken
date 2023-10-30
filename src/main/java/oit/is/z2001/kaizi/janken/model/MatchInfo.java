@@ -1,10 +1,19 @@
 package oit.is.z2001.kaizi.janken.model;
 
 public class MatchInfo {
+  String id;
   String user1;
   String user2;
   String user1Hand;
   String isActive;
+
+  public String getId() {
+    return id;
+  }
+
+  public void setId(String id) {
+    this.id = id;
+  }
 
   public String getUser1() {
     return user1;
